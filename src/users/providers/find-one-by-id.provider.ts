@@ -17,7 +17,10 @@ export class FindOneByIdProvider {
   public async findOneById(userId: number) {
     let user = null;
     try {
-      user = await this.usersRepository.findOne({ where: { id: userId } });
+      user = await this.usersRepository.findOne({
+        where: { id: userId },
+        relations: { boards: true },
+      });
     } catch (error) {
       throw new RequestTimeoutException(
         'Unable to process your request at the moment.',

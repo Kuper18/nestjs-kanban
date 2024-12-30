@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { DashboardsModule } from './dahsboards/dashboards.module';
-import { Dashboard } from './dahsboards/dashboard.entity';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/guards/auth.guard';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
-import { EnvVariables } from './interfaces/env-variables.interface';
 import envValidation from './config/env.validation';
+import { EnvVariables } from './interfaces/env-variables.interface';
+import { User } from './users/user.entity';
+import { UsersModule } from './users/users.module';
+import { BoardsModule } from './boards/boards.module';
+import { Board } from './boards/boards.entity';
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import envValidation from './config/env.validation';
         const config = configService.get<EnvVariables>('config');
         return {
           type: 'postgres',
-          entities: [User, Dashboard],
+          entities: [User, Board],
           host: config.dbHost,
           port: config.dbPort,
           username: config.dbUsername,
@@ -38,7 +38,7 @@ import envValidation from './config/env.validation';
       },
     }),
     UsersModule,
-    DashboardsModule,
+    BoardsModule,
     AuthModule,
   ],
   controllers: [AppController],
