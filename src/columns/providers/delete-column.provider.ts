@@ -37,7 +37,7 @@ export class DeleteColumnProvider {
         .where('id = :id', { id: columnId })
         .execute();
 
-      return 'Deleted.';
+      return { message: `Column by ID: '${columnId}' was deleted.` };
     } catch (error) {
       throw new InternalServerErrorException(
         'Cannot delete a column at the momment. Please try again later.',

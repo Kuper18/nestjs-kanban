@@ -14,6 +14,8 @@ import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/boards.entity';
 import { ColumnsModule } from './columns/columns.module';
 import { Column } from './columns/column.entity';
+import { TasksModule } from './tasks/tasks.module';
+import { Task } from 'src/tasks/task.entity';
 
 @Module({
   imports: [
@@ -29,7 +31,7 @@ import { Column } from './columns/column.entity';
         const config = configService.get<EnvVariables>('config');
         return {
           type: 'postgres',
-          entities: [User, Board, Column],
+          entities: [User, Board, Column, Task],
           host: config.dbHost,
           port: config.dbPort,
           username: config.dbUsername,
@@ -43,6 +45,7 @@ import { Column } from './columns/column.entity';
     BoardsModule,
     AuthModule,
     ColumnsModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: 'APP_GUARD', useClass: AuthGuard }],

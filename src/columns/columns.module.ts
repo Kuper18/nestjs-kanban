@@ -9,5 +9,6 @@ import { DeleteColumnProvider } from './providers/delete-column.provider';
   imports: [TypeOrmModule.forFeature([Column])],
   controllers: [ColumnsController],
   providers: [ColumnsService, DeleteColumnProvider],
+  exports: [ColumnsService],
 })
 export class ColumnsModule {}
