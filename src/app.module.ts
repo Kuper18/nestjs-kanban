@@ -12,6 +12,8 @@ import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/boards.entity';
+import { ColumnsModule } from './columns/columns.module';
+import { Column } from './columns/column.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { Board } from './boards/boards.entity';
         const config = configService.get<EnvVariables>('config');
         return {
           type: 'postgres',
-          entities: [User, Board],
+          entities: [User, Board, Column],
           host: config.dbHost,
           port: config.dbPort,
           username: config.dbUsername,
@@ -40,6 +42,7 @@ import { Board } from './boards/boards.entity';
     UsersModule,
     BoardsModule,
     AuthModule,
+    ColumnsModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: 'APP_GUARD', useClass: AuthGuard }],

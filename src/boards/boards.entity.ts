@@ -1,9 +1,11 @@
+import { Column as ColumnEntity } from 'src/columns/column.entity';
 import { User } from 'src/users/user.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,4 +20,7 @@ export class Board {
   @ManyToOne(() => User, (user) => user.boards, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @OneToMany(() => ColumnEntity, (column) => column.board)
+  columns: ColumnEntity[];
 }

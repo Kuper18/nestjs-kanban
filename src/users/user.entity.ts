@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Board } from 'src/boards/boards.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -16,6 +17,7 @@ export class User {
   email: string;
 
   @Column({ type: 'varchar', nullable: false, length: 1024 })
+  @Exclude()
   password: string;
 
   @OneToMany(() => Board, (board) => board.user)

@@ -3,6 +3,6 @@ import { CreateBoardDto } from './create-board.dto';
 
 export class UpdateBoardDto extends CreateBoardDto {
   @IsInt()
-  @Min(0)
+  @Min(1)
   boardId: number;
 }

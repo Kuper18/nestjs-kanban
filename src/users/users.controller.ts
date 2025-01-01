@@ -1,11 +1,13 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   ParseIntPipe,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './providers/users.service';
@@ -16,6 +18,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { ICurrentUser } from 'src/interfaces/current-user.interface';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(
