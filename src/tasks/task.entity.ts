@@ -2,10 +2,12 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Column as ColumnEntity } from 'src/columns/column.entity';
+import { Subtask } from 'src/subtasks/subtask.entity';
 
 @Entity()
 export class Task {
@@ -18,7 +20,12 @@ export class Task {
   @Column({ type: 'varchar', nullable: true, length: 1024 })
   description: string;
 
-  @ManyToMany(() => ColumnEntity, (column) => column.tasks)
+  @ManyToOne(() => ColumnEntity, (column) => column.tasks, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   column: ColumnEntity;
+
+  @OneToMany(() => Subtask, (subtask) => subtask.task)
+  subtasks: Subtask[];
 }

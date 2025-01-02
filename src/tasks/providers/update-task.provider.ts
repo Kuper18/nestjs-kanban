@@ -34,13 +34,15 @@ export class UpdateTaskProvider {
     }
 
     try {
-      const {} = await this.tasksRepository
+      const { raw } = await this.tasksRepository
         .createQueryBuilder()
         .update(Task)
         .set({ title, description, column: { id: columnId } })
         .where('id = :id', { id: taskId })
         .returning(['title', 'description', 'columnId'])
         .execute();
+
+      return raw[0];
     } catch (error) {
       throw new InternalServerErrorException(
         'Cannot update a task at the momment. Please try again later.',

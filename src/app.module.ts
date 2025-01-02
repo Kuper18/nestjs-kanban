@@ -5,17 +5,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { BoardsModule } from './boards/boards.module';
+import { ColumnsModule } from './columns/columns.module';
 import configuration from './config/configuration';
 import envValidation from './config/env.validation';
 import { EnvVariables } from './interfaces/env-variables.interface';
-import { User } from './users/user.entity';
-import { UsersModule } from './users/users.module';
-import { BoardsModule } from './boards/boards.module';
-import { Board } from './boards/boards.entity';
-import { ColumnsModule } from './columns/columns.module';
-import { Column } from './columns/column.entity';
+import { SubtasksModule } from './subtasks/subtasks.module';
 import { TasksModule } from './tasks/tasks.module';
-import { Task } from 'src/tasks/task.entity';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -31,7 +28,7 @@ import { Task } from 'src/tasks/task.entity';
         const config = configService.get<EnvVariables>('config');
         return {
           type: 'postgres',
-          entities: [User, Board, Column, Task],
+          autoLoadEntities: true,
           host: config.dbHost,
           port: config.dbPort,
           username: config.dbUsername,
@@ -46,6 +43,7 @@ import { Task } from 'src/tasks/task.entity';
     AuthModule,
     ColumnsModule,
     TasksModule,
+    SubtasksModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: 'APP_GUARD', useClass: AuthGuard }],

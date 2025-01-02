@@ -24,7 +24,7 @@ export class TasksService {
     try {
       return await this.tasksRepository.findOne({
         where: { id: taskId },
-        relations: ['column', 'column.board', 'board.user'],
+        relations: ['column', 'column.board', 'column.board.user'],
       });
     } catch (error) {
       throw new NotFoundException(`Task with ID ${taskId} not found.`, {
