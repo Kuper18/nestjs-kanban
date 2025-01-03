@@ -8,4 +8,5 @@ export default registerAs('config', () => ({
   dbName: process.env.DB_NAME,
   dbAutoload: process.env.DB_DATABASE_AUTOLOAD === 'true' ? true : false,
   jwtSecret: process.env.JWT_SECRET,
+  baseUrl: process.env.BASE_URL,
 }));

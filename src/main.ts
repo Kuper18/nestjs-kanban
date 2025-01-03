@@ -5,11 +5,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const serverUrl = process.env.BASE_URL;
+
   const config = new DocumentBuilder()
     .setTitle('Kanban example')
-    .setDescription('Use the base API URL as http://localhost:3000')
+    .setDescription(`Use the base API URL as ${serverUrl}`)
     .setVersion('1.0')
-    .addServer('http://localhost:3000')
+    .addServer(serverUrl)
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
 

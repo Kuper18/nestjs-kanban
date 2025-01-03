@@ -10,4 +10,5 @@ export default Joi.object({
   DB_USER_NAME: Joi.string().required(),
   DB_NAME: Joi.string().required(),
   JWT_SECRET: Joi.string().required(),
+  BASE_URL: Joi.string().required(),
 });
