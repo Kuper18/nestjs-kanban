@@ -17,6 +17,8 @@ import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { ICurrentUser } from 'src/interfaces/current-user.interface';
+import { ApiParam, ApiResponse } from '@nestjs/swagger';
+import usersSwaggerConfig from './users-swagger.config';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
@@ -27,20 +29,24 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) {}
 
-  @Get()
-  findAll(@CurrentUser() user: ICurrentUser) {
+  @ApiResponse(usersSwaggerConfig.getMeResponse)
+  @Get('me')
+  findOne(@CurrentUser() user: ICurrentUser) {
     return this.usersService.findOneById(user.sub);
   }
 
+  @ApiResponse(usersSwaggerConfig.signupResponse)
   @Public()
   @Post('signup')
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
 
+  @ApiResponse(usersSwaggerConfig.deleteResponse)
+  @ApiParam({ type: Number, name: 'userId', schema: { example: 1 } })
   @Public()
   @Delete(':userId')
   async deleteUser(@Param('userId', ParseIntPipe) userId: number) {
-    return await this.usersRepository.delete(userId);
+    return this.usersService.delete(userId);
   }
 }

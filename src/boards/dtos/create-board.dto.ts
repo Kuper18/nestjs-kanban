@@ -1,6 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Length } from 'class-validator';
 
 export class CreateBoardDto {
-  @Length(3, 1024)
+  @ApiProperty({ type: String, example: 'Roadmap' })
+  @Length(3, 250)
   name: string;
 }

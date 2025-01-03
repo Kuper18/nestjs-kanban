@@ -19,7 +19,6 @@ export class FindOneByIdProvider {
     try {
       user = await this.usersRepository.findOne({
         where: { id: userId },
-        relations: { boards: true },
       });
     } catch (error) {
       throw new RequestTimeoutException(
