@@ -39,7 +39,7 @@ export class UpdateTaskProvider {
         .update(Task)
         .set({ title, description, column: { id: columnId } })
         .where('id = :id', { id: taskId })
-        .returning(['title', 'description', 'columnId'])
+        .returning(['title', 'description', 'columnId', 'id'])
         .execute();
 
       return raw[0];

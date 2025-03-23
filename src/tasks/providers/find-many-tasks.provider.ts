@@ -17,7 +17,11 @@ export class FindManyTasksProvider {
     private readonly columnsService: ColumnsService,
   ) {}
 
-  public async findMany(columnId: number, userId: number) {
+  public async findMany(
+    columnId: number,
+    userId: number,
+    populate: 'subtasks',
+  ) {
     const column = await this.columnsService.findOneById(columnId);
 
     if (column.board.user.id !== userId) {
@@ -29,6 +33,7 @@ export class FindManyTasksProvider {
     try {
       return await this.tasksRepository.find({
         where: { column: { id: columnId } },
+        relations: populate === 'subtasks' ? ['subtasks'] : undefined,
       });
     } catch (error) {
       throw new InternalServerErrorException(

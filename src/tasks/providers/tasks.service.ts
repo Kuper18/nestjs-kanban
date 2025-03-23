@@ -33,8 +33,16 @@ export class TasksService {
     }
   }
 
-  public async findManyByColumnId(columnId: number, userId: number) {
-    return await this.findManyTasksProvider.findMany(columnId, userId);
+  public async findManyByColumnId(
+    columnId: number,
+    userId: number,
+    populate: 'subtasks',
+  ) {
+    return await this.findManyTasksProvider.findMany(
+      columnId,
+      userId,
+      populate,
+    );
   }
 
   public async create(createTaskDto: CreateTaskDto) {

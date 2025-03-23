@@ -27,7 +27,7 @@ export class CreateTaskProvider {
         .insert()
         .into(Task)
         .values({ title, description, column: { id: columnId } })
-        .returning(['title', 'description', 'columnId'])
+        .returning(['title', 'description', 'column'])
         .execute();
 
       return generatedMaps[0];

@@ -8,6 +8,8 @@ import { Column } from '../column.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateColumnDto } from '../dtos/create-column.dto';
 import { DeleteColumnProvider } from './delete-column.provider';
+import { UpdateColumnProvider } from './update-column.provider';
+import { UpdateColumnDto } from '../dtos/update-column.dto';
 
 @Injectable()
 export class ColumnsService {
@@ -16,6 +18,8 @@ export class ColumnsService {
     private readonly columnsRepository: Repository<Column>,
 
     private readonly deleteColumnProvider: DeleteColumnProvider,
+
+    private readonly updateColumnProvider: UpdateColumnProvider,
   ) {}
 
   public async findOneById(columnId: number) {
@@ -31,10 +35,28 @@ export class ColumnsService {
     }
   }
 
-  public async findMany(boardId: number) {
+  public async findMany(
+    boardId: number,
+    populate?: 'tasks,subtasks' | 'tasks',
+  ) {
+    const buildRelations = () => {
+      switch (populate) {
+        case 'tasks':
+          return ['tasks'];
+
+        case 'tasks,subtasks':
+          return ['tasks', 'tasks.subtasks'];
+
+        default:
+          return undefined;
+      }
+    };
+
     try {
       return await this.columnsRepository.find({
         where: { board: { id: boardId } },
+        relations: buildRelations(),
+        order: { id: 'ASC', tasks: { id: 'ASC', subtasks: { id: 'ASC' } } },
       });
     } catch (error) {
       throw new InternalServerErrorException(
@@ -61,6 +83,10 @@ export class ColumnsService {
         { description: error.message },
       );
     }
+  }
+
+  public async update({ columnId, name }: UpdateColumnDto, userId: number) {
+    return await this.updateColumnProvider.update(columnId, name, userId);
   }
 
   public async delete(columnId: number, userId: number) {

@@ -42,6 +42,7 @@ export class UpdateSubtasksProvider {
           isCompleted: isCompleted ?? subtask.isCompleted,
         })
         .where('id = :id', { id: subtaskId })
+        .returning(['title', 'isCompleted', 'taskId', 'id'])
         .execute();
 
       return raw[0];
