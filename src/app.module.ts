@@ -26,6 +26,7 @@ import { UsersModule } from './users/users.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const config = configService.get<EnvVariables>('config');
+
         return {
           type: 'postgres',
           autoLoadEntities: true,
@@ -35,6 +36,9 @@ import { UsersModule } from './users/users.module';
           password: config.dbPassword,
           database: config.dbName,
           synchronize: config.dbAutoload,
+          ssl: {
+            rejectUnauthorized: false,
+          },
         };
       },
     }),

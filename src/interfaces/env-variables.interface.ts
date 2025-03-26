@@ -6,4 +6,5 @@ export interface EnvVariables {
   dbName: string;
   dbAutoload: boolean;
   jwtSecret: string;
+  nodeEnv: 'development' | 'test' | 'production' | 'staging';
 }
