@@ -13,6 +13,11 @@ import { EnvVariables } from './interfaces/env-variables.interface';
 import { SubtasksModule } from './subtasks/subtasks.module';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
+import { User } from './users/user.entity';
+import { Board } from './boards/boards.entity';
+import { Column } from './columns/column.entity';
+import { Task } from './tasks/task.entity';
+import { Subtask } from './subtasks/subtask.entity';
 
 @Module({
   imports: [
@@ -35,10 +40,11 @@ import { UsersModule } from './users/users.module';
           username: config.dbUsername,
           password: config.dbPassword,
           database: config.dbName,
-          synchronize: config.dbAutoload,
+          synchronize: true,
           ssl: {
             rejectUnauthorized: false,
           },
+          entities: [User, Board, Column, Task, Subtask],
         };
       },
     }),
